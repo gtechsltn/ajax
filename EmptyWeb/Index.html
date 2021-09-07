@@ -59,36 +59,36 @@
                 showIndicator();
 
                 $.ajax({
-                    url: 'https://localhost:44321/api/v1/StoreManagement/Upload',
+                    url: 'https://localhost:44321/api/v1/StoreManagement/upsert',
                     type: 'POST',
                     data: formData,
                     cache: false,
                     contentType: false,
                     processData: false,
                     success: function (res) {
-                        debugger;
+                        //debugger;
                         if (res.success) {
-                            debugger;
+                            //debugger;
                             console.log(res.data);
                             $('#resultMessage').css('color', 'green');
                             $('#resultMessage').html("Success!");
                             if (res.data) {
-                                debugger;
+                                //debugger;
                                 showList(res.data);
                             }
                         } else {
-                            debugger;
+                            //debugger;
                             $('#resultMessage').css('color', 'red');
                             $('#resultMessage').html(res.data);
                         }
                     },
                     error: function (xhr) {
-                        debugger;
+                        //debugger;
                         $('#resultMessage').css('color', 'red');
                         $('#resultMessage').html(xhr.statusText);
                     },
                     complete: function () {
-                        debugger;
+                        //debugger;
                         // Hide loading..
                         hideIndicator();
                     }
