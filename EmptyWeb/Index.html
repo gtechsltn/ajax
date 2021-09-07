@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        * {
+            padding: 5px;
+        }
+
+        .container {
+            display: table;
+            border-collapse: collapse
+        }
+
+        .column {
+            display: table-row;
+        }
+
+        .cell {
+            display: table-cell;
+            border: 1px solid gray;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        $(function () {
+
+            $('#fileUpload').change(function () {
+                if (this.files.length > 0)
+                    $('#warningMessage').html("");
+            });
+
+            $("#formUpload").submit(function (e) {
+                e.preventDefault();
+
+                // Validate
+                if (document.getElementById("fileUpload").files.length == 0) {
+                    $('#warningMessage').html("Please select at least one file to upload (.xls, xlsx).");
+                    return;
+                }
+
+                // Build FormData
+                var formData = new FormData(this);
+
+                // Attach Excel file
+                formData.append('file', $('input[type=file]')[0].files[0]);
+
+                // Clearn Form
+                cleanResult();
+
+                // Show loading..
+                showIndicator();
+
+                $.ajax({
+                    url: 'https://localhost:44321/api/v1/StoreManagement/Upload',
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        debugger;
+                        if (res.success) {
+                            debugger;
+                            console.log(res.data);
+                            $('#resultMessage').css('color', 'green');
+                            $('#resultMessage').html("Success!");
+                            if (res.data) {
+                                debugger;
+                                showList(res.data);
+                            }
+                        } else {
+                            debugger;
+                            $('#resultMessage').css('color', 'red');
+                            $('#resultMessage').html(res.data);
+                        }
+                    },
+                    error: function (xhr) {
+                        debugger;
+                        $('#resultMessage').css('color', 'red');
+                        $('#resultMessage').html(xhr.statusText);
+                    },
+                    complete: function () {
+                        debugger;
+                        // Hide loading..
+                        hideIndicator();
+                    }
+                });
+            });
+            function cleanResult() {
+                $('#warningMessage').html("");
+                $('#resultMessage').html("");
+                $('#tblResult').html("");
+            }
+            function showIndicator() {
+                $('#btnSubmit').prop("disabled", true);
+            }
+            function hideIndicator() {
+                $('#btnSubmit').prop("disabled", false);
+            }
+            function showList(data) {
+                var str = '';
+                for (var i = 0; i < data.length; i++) {
+                    var objects = data[i];
+                    str = str + '<div class="column">';
+                    str = str + '<div class="cell">' + (i + 1) + '</div>';
+                    for (var key in objects) {
+                        var value = objects[key];
+                        str = str + '<div class="cell">' + value + '</div>';
+                    }
+                    str = str + '</div>';
+                } $('#tblResult').html(str);
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Store Importing</h1>
+    <div id="warningMessage" style="color:red; font-weight: bold;"></div>
+    <form id="formUpload" method="post" enctype="multipart/form-data">
+        <div class="container">
+            <div class="column">
+                <div class="cell">First name</div>
+                <div class="cell">
+                    <input type="text" name="firstname" value="Bob" />
+                </div>
+            </div>
+            <div class="column">
+                <div class="cell">Last name</div>
+                <div class="cell">
+                    <input type="text" name="lastname" value="Smith" />
+                </div>
+            </div>
+            <div class="column">
+                <div class="cell">Excel file</div>
+                <div class="cell">
+                    <input id="fileUpload" name="fileUpload" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                </div>
+            </div>
+            <div class="column">
+                <div class="cell"></div>
+                <div class="cell">
+                    <input id="btnSubmit" type="submit" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <h1>Result</h1>
+    <div id="resultMessage" style="color:green; font-weight: bold;"></div>
+    <div id="tblResult" class="container"></div>
+</body>
+</html>
