@@ -15,9 +15,9 @@ https://www.digitalocean.com/community/tutorials/submitting-ajax-forms-with-jque
 # jQuery Ajax Setup
 ```
 $.ajaxPrefilter(function(opt, origOpt, jqxhr) {
-    jqxhr.always(function() {
-        $("[data-plugin]").plugin();
-    });
+  jqxhr.always(function() {
+    $("[data-plugin]").plugin();
+  });
 });
 ```
 
@@ -30,21 +30,21 @@ $.ajaxSetup({
 });
 
 $.ajax({
-	url: contact.attr('action'),
-	type: 'post',
-	data: contact.serialize(),
-	crossDomain: true,
-	headers: {
-	    "X-Requested-With": "XMLHttpRequest"
-	},
-	success: function() {
-	    $('#contact-popup .sending').slideUp();
-	    $('#contact-popup .success').slideDown();
-	},
-    error: function(request, status, error) {
-		$('#contact-popup .sending').slideUp();
-        $('#contact-popup .error').slideDown();
-    }
+  url: contact.attr('action'),
+  type: 'post',
+  data: contact.serialize(),
+  crossDomain: true,
+  headers: {
+    "X-Requested-With": "XMLHttpRequest"
+  },
+  success: function() {
+    $('#contact-popup .sending').slideUp();
+    $('#contact-popup .success').slideDown();
+    },
+  error: function(request, status, error) {
+    $('#contact-popup .sending').slideUp();
+    $('#contact-popup .error').slideDown();
+  }
 });
 ```
 
@@ -62,23 +62,23 @@ $.ajax({
 
 ```
 $.ajax({
-    data: someData,
-    dataType: 'json',
-    url: '/path/to/script',
-    success: function(data, textStatus, jqXHR) {
-        // When AJAX call is successfuly
-        console.log('AJAX call successful.');
-        console.log(data);
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        // When AJAX call has failed
-        console.log('AJAX call failed.');
-        console.log(textStatus + ': ' + errorThrown);
-    },
-    complete: function() {
-        // When AJAX call is complete, will fire upon success or when error is thrown
-        console.log('AJAX call completed');
-    };
+  data: someData,
+  dataType: 'json',
+  url: '/path/to/script',
+  success: function(data, textStatus, jqXHR) {
+    // When AJAX call is successfuly
+    console.log('AJAX call successful.');
+    console.log(data);
+  },
+  error: function(jqXHR, textStatus, errorThrown) {
+    // When AJAX call has failed
+    console.log('AJAX call failed.');
+    console.log(textStatus + ': ' + errorThrown);
+  },
+  complete: function() {
+    // When AJAX call is complete, will fire upon success or when error is thrown
+    console.log('AJAX call completed');
+  };
 });
 ```
 
@@ -93,15 +93,15 @@ $.ajax({
 
 ```
 $.ajax({
-    data: someData,
-    dataType: 'json',
-    url: '/path/to/script'
+  data: someData,
+  dataType: 'json',
+  url: '/path/to/script'
 }).done(function(data) {
-    // If successful
-   console.log(data);
+  // If successful
+  console.log(data);
 }).fail(function(jqXHR, textStatus, errorThrown) {
-    // If fail
-    console.log(textStatus + ': ' + errorThrown);
+  // If fail
+  console.log(textStatus + ': ' + errorThrown);
 });
 ```
 
@@ -111,10 +111,10 @@ var a1 = $.ajax({...}),
     a2 = $.ajax({...});
 
 $.when(a1, a2).done(function(r1, r2) {
-    // Each returned resolve has the following structure:
-    // [data, textStatus, jqXHR]
-    // e.g. To access returned data, access the array at index 0
-    console.log(r1[0]);
-    console.log(r2[0]);
+  // Each returned resolve has the following structure:
+  // [data, textStatus, jqXHR]
+  // e.g. To access returned data, access the array at index 0
+  console.log(r1[0]);
+  console.log(r2[0]);
 });
 ```
