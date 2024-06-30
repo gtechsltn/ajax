@@ -21,7 +21,27 @@ $.ajaxPrefilter(function(opt, origOpt, jqxhr) {
 });
 ```
 
-# jQuery Ajax
+```
+$.ajaxSetup({
+  crossDomain: true,
+  xhrFields: {
+    withCredentials: true
+  }
+});
+```
+
+# jQuery Ajax Sample
+```
+$.ajax({
+  success: function(data, textStatus, xhr) {
+    console.log(xhr.status);
+  },
+  complete: function(xhr, textStatus) {
+    console.log(xhr.status);
+  } 
+});
+```
+
 ```
 $.ajax({
     data: someData,
