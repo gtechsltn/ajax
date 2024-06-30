@@ -28,6 +28,24 @@ $.ajaxSetup({
     withCredentials: true
   }
 });
+
+$.ajax({
+	url: contact.attr('action'),
+	type: 'post',
+	data: contact.serialize(),
+	crossDomain: true,
+	headers: {
+	    "X-Requested-With": "XMLHttpRequest"
+	},
+	success: function() {
+	    $('#contact-popup .sending').slideUp();
+	    $('#contact-popup .success').slideDown();
+	},
+    error: function(request, status, error) {
+		$('#contact-popup .sending').slideUp();
+        $('#contact-popup .error').slideDown();
+    }
+});
 ```
 
 # jQuery Ajax Sample
